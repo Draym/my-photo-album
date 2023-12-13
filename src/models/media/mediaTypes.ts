@@ -9,7 +9,8 @@ export enum MediaType {
 }
 
 export interface MediaFilters {
+  folder?: string
   type?: MediaType
-  month?: number
-  year?: number
+  month?: string
+  year?: string
 }
