@@ -1,27 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GetMediaRequest } from '@/app/api/media/types'
 import { Media, MediaFilters, MediaType } from '@/models/media/mediaTypes'
 import { errorMiddleware } from '@/middleware/errorMiddleware'
 import { authMiddleware } from '@/middleware/authMiddleware'
 import googleDrive from '@/clients/googleDrive'
 import { formatGoogleMedia } from '@/clients/googleFormater'
+import { Paginated } from '@/utils/pagination'
 
 const GET = async (req: NextRequest): Promise<NextResponse> => {
   const { folder, type, month, year } = Object.fromEntries(
     req.nextUrl.searchParams
   )
-  const medias = await _listProjects({
+  const pagedMedias = await _listProjects({
     folder,
     type: type as MediaType,
     month,
     year
   })
-  return NextResponse.json({ medias }, { status: 200 })
+  return NextResponse.json(pagedMedias, { status: 200 })
 }
 
-async function _listProjects(filters: MediaFilters): Promise<Media[]> {
+async function _listProjects(filters: MediaFilters): Promise<Paginated<Media>> {
   const googleMedias = await googleDrive.searchImages(filters)
-  return formatGoogleMedia(googleMedias)
+  const medias = formatGoogleMedia(googleMedias.values)
+  return new Paginated(medias, googleMedias.nextPageToken)
 }
 
 module.exports = errorMiddleware({

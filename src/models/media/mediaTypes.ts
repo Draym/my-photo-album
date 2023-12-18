@@ -1,6 +1,10 @@
 export interface Media {
   type: MediaType
+  thumbnail: string
   url: string
+  height: number
+  width: number
+  time: string
 }
 
 export enum MediaType {
@@ -13,4 +17,5 @@ export interface MediaFilters {
   type?: MediaType
   month?: string
   year?: string
+  pageToken?: string
 }
