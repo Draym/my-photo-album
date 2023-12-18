@@ -1,5 +1,5 @@
-export const stringifyParams = (params: any): string => {
-  return Object.keys(params)
+export const stringifyQueryParams = (params: any): string => {
+  const result = Object.keys(params)
     .map((key) => {
       if (params[key] === undefined) {
         return null
@@ -7,5 +7,5 @@ export const stringifyParams = (params: any): string => {
       return `${key}=${params[key]}`
     })
     .filter((param) => param !== null)
-    .join('&')
+  return result.length == 0 ? '' : '?' + result.join('&')
 }
