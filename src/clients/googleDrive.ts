@@ -14,16 +14,16 @@ const searchImages = async (
   query: MediaFilters
 ): Promise<Paginated<drive_v3.Schema$File>> => {
   try {
-    console.log(`search files query: ${query}`)
+    console.log(`search files query: `, query)
     const mimeFilter = buildMimeTypeFilter(query.type)
     const res = await drive.files.list({
       q: `'${query.folder}' in parents ${
         mimeFilter.length != 0 ? `and ${mimeFilter}` : ''
       }`,
       fields:
-        'files(id, name, webViewLink, webContentLink, mimeType, imageMediaMetadata, videoMediaMetadata, thumbnailLink)',
+        'nextPageToken, files(id, name, webViewLink, webContentLink, mimeType, imageMediaMetadata, videoMediaMetadata, thumbnailLink)',
       supportsAllDrives: true,
-      pageSize: 5,
+      pageSize: query.pageMaxSize,
       pageToken: query.pageToken
     })
     return new Paginated(

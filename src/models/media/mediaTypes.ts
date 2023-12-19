@@ -17,5 +17,6 @@ export interface MediaFilters {
   type?: MediaType
   month?: string
   year?: string
+  pageMaxSize?: number
   pageToken?: string
 }

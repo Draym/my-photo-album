@@ -5,35 +5,68 @@ import { stringifyQueryParams } from '@/utils/queryUtils'
 import { Paginated } from '@/utils/pagination'
 
 export default function useMedias(filters: MediaFilters) {
-  const [medias, setMedias] = useState<Media[]>()
+  const [loading, setLoading] = useState(false)
+  const [medias, setMedias] = useState<Media[]>([])
   const [nextPageToken, setNextPageToken] = useState<string | undefined>()
 
-  async function refreshMedias(filters: MediaFilters) {
-    try {
-      const queryParameters = stringifyQueryParams(filters)
-      const response = await axios.get<Paginated<Media>>(
-        `/api/media${queryParameters}`,
-        {
-          headers: {
-            Authorization: 'secret'
-          }
+  async function fetchMedias(filters: MediaFilters): Promise<Paginated<Media>> {
+    const queryParameters = stringifyQueryParams(filters)
+    const response = await axios.get<Paginated<Media>>(
+      `/api/media${queryParameters}`,
+      {
+        headers: {
+          Authorization: 'secret'
         }
-      )
-      console.log('responses: ', response.data)
-      setMedias(response.data.values)
-      setNextPageToken(response.data.nextPageToken)
+      }
+    )
+    return response.data
+  }
+
+  async function refreshFromZero(loading: boolean) {
+    if (loading) {
+      return
+    }
+    try {
+      setLoading(true)
+      const response = await fetchMedias(filters)
+      setMedias(response.values)
+      setNextPageToken(response.nextPageToken)
     } catch (error) {
       setMedias([])
+    } finally {
+      setLoading(false)
     }
   }
 
-  function nextPage() {
-    refreshMedias({ ...filters, pageToken: nextPageToken })
+
+  const nextPage = async (loading: boolean, nextPageToken?: string) => {
+    if (loading || !nextPageToken) {
+      return
+    }
+    try {
+      setLoading(true)
+      const response = await fetchMedias({
+        ...filters,
+        pageToken: nextPageToken
+      })
+      setMedias((prevData) => [...prevData, ...response.values])
+      setNextPageToken(response.nextPageToken)
+    } catch (error) {
+      setMedias([])
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
-    refreshMedias(filters)
+    refreshFromZero(loading)
   }, [])
 
-  return { medias, refreshMedias, nextPage }
+  return {
+    medias,
+    nextPageToken,
+    loading,
+    nextPage,
+    refreshFromZero
+  }
 }

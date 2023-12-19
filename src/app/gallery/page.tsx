@@ -3,11 +3,13 @@
 import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
 import Gallery from 'react-photo-gallery'
+import { useEffect } from 'react'
 
 export default function GalleryPage() {
-  const { medias, refreshMedias } = useMedias({
+  const { medias, nextPageToken, loading, nextPage, refreshFromZero } = useMedias({
     folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
-    type: MediaType.IMAGE
+    type: MediaType.IMAGE,
+    pageMaxSize: 25
   })
   const photos =
     medias?.map((media) => {
@@ -18,11 +20,21 @@ export default function GalleryPage() {
         height: 1
       }
     }) || []
-  return (
-    <div>
-      <Gallery
-        photos={photos}
-      />
-    </div>
-  )
+  console.log(medias, nextPageToken)
+
+  const handleScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+      nextPage(loading, nextPageToken)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [loading, nextPageToken])
+
+
+  return <div>{photos.length > 0 && <Gallery photos={photos} />}</div>
 }

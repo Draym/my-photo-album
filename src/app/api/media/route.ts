@@ -7,14 +7,16 @@ import { formatGoogleMedia } from '@/clients/googleFormater'
 import { Paginated } from '@/utils/pagination'
 
 const GET = async (req: NextRequest): Promise<NextResponse> => {
-  const { folder, type, month, year } = Object.fromEntries(
+  const { folder, type, month, year, pageMaxSize, pageToken } = Object.fromEntries(
     req.nextUrl.searchParams
   )
   const pagedMedias = await _listProjects({
     folder,
     type: type as MediaType,
     month,
-    year
+    year,
+    pageMaxSize: Number(pageMaxSize),
+    pageToken
   })
   return NextResponse.json(pagedMedias, { status: 200 })
 }
