@@ -5,7 +5,7 @@ export const formatGoogleMedia = (medias: drive_v3.Schema$File[]): Media[] => {
   if (!medias) {
     return []
   }
-  console.log('Format media >')
+  console.log('Format media >', medias)
   return medias.map((media: any) => {
     return {
       type: media.mimeType,

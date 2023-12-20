@@ -5,13 +5,19 @@ import { MediaType } from '@/models/media/mediaTypes'
 import Gallery from 'react-photo-gallery'
 import { useEffect } from 'react'
 
+interface Photo {
+  src: string
+  width: number
+  height: number
+}
+
 export default function GalleryPage() {
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } = useMedias({
     folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
     type: MediaType.IMAGE,
     pageMaxSize: 25
   })
-  const photos =
+  const photos: Photo[] =
     medias?.map((media) => {
       const ratio = media.width / media.height
       return {
