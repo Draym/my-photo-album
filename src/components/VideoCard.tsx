@@ -5,8 +5,8 @@ import './VideoCard.css'
 
 export interface VideoCardProps {
   url: string
-  width: number
-  height: number
+  width?: number
+  height?: number
   autoplay: boolean
   setVideoRef: (ref: any) => void
 }
