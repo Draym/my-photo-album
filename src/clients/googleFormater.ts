@@ -5,7 +5,7 @@ export const formatGoogleMedia = (medias: drive_v3.Schema$File[]): Media[] => {
   if (!medias) {
     return []
   }
-  console.log('Format media >', medias)
+  //console.log('Format media >', medias)
   return medias.map((media: any) => {
     return {
       type: media.mimeType,
@@ -14,9 +14,11 @@ export const formatGoogleMedia = (medias: drive_v3.Schema$File[]): Media[] => {
       height:
         media.imageMediaMetadata?.height ||
         media.videoMediaMetadata?.height ||
-        1,
+        undefined,
       width:
-        media.imageMediaMetadata?.width || media.videoMediaMetadata?.width || 1,
+        media.imageMediaMetadata?.width ||
+        media.videoMediaMetadata?.width ||
+        undefined,
       time: media.imageMediaMetadata?.time
     }
   })
