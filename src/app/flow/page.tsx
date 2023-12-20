@@ -8,17 +8,17 @@ import { MediaType } from '@/models/media/mediaTypes'
 
 interface Video {
   url: string
-  width: number
-  height: number
+  width?: number
+  height?: number
 }
 
 export default function VideoGallery() {
   const videoRefs = useRef<any[]>([])
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
-      folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
+      //folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
       type: MediaType.VIDEO,
-      pageMaxSize: 25
+      pageMaxSize: 5
     })
   const videos: Video[] =
     medias?.map((media) => ({
