@@ -1,26 +1,10 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './page.css'
 import VideoCard from '@/components/VideoCard'
 import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
-
-// This array holds information about different videos
-const videoUrls = [
-  {
-    url: 'https://github.com/shemmee/TikTok-UI-Clone/raw/main/src/videos/video1.mp4'
-  },
-  {
-    url: 'https://github.com/shemmee/TikTok-UI-Clone/raw/main/src/videos/video2.mp4'
-  },
-  {
-    url: 'https://github.com/shemmee/TikTok-UI-Clone/raw/main/src/videos/video3.mp4'
-  },
-  {
-    url: 'https://github.com/shemmee/TikTok-UI-Clone/raw/main/src/videos/video4.mp4'
-  }
-]
 
 interface Video {
   url: string
@@ -43,6 +27,7 @@ export default function VideoGallery() {
       height: media.height
     })) || []
 
+  console.log(videos)
   useEffect(() => {
     const observerOptions = {
       root: null,
@@ -57,6 +42,7 @@ export default function VideoGallery() {
           videoElement.play()
         } else {
           const videoElement = entry.target
+          videoElement.pause()
           videoElement.load()
         }
       })
