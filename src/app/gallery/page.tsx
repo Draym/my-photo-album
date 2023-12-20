@@ -12,6 +12,7 @@ interface Photo {
 }
 
 export default function GalleryPage() {
+  const useColumns = false
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
       type: MediaType.IMAGE,
@@ -31,7 +32,7 @@ export default function GalleryPage() {
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 50
+      document.body.offsetHeight - 500
     ) {
       nextPage(loading, nextPageToken)
     }
@@ -44,5 +45,11 @@ export default function GalleryPage() {
     }
   }, [loading, nextPageToken])
 
-  return <div>{photos.length > 0 && <Gallery photos={photos} />}</div>
+  return (
+    <div>
+      {photos.length > 0 && (
+        <Gallery photos={photos} direction={useColumns ? 'column' : undefined} />
+      )}
+    </div>
+  )
 }
