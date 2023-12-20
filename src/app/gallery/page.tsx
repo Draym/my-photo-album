@@ -12,14 +12,14 @@ interface Photo {
 }
 
 export default function GalleryPage() {
-  const { medias, nextPageToken, loading, nextPage, refreshFromZero } = useMedias({
-    folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
-    type: MediaType.IMAGE,
-    pageMaxSize: 25
-  })
+  const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
+    useMedias({
+      type: MediaType.IMAGE,
+      pageMaxSize: 25
+    })
   const photos: Photo[] =
     medias?.map((media) => {
-      const ratio = media.width / media.height
+      const ratio = media.width && media.height ? media.width / media.height : 1
       return {
         src: media.url,
         width: ratio,
@@ -29,7 +29,10 @@ export default function GalleryPage() {
   console.log(medias, nextPageToken)
 
   const handleScroll = () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 50
+    ) {
       nextPage(loading, nextPageToken)
     }
   }
@@ -40,7 +43,6 @@ export default function GalleryPage() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [loading, nextPageToken])
-
 
   return <div>{photos.length > 0 && <Gallery photos={photos} />}</div>
 }
