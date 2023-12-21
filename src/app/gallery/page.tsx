@@ -4,7 +4,8 @@ import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
 import Gallery from 'react-photo-gallery'
 import { useCallback, useEffect, useState } from 'react'
-import Carousel, { Modal, ModalGateway } from 'react-images'
+// @ts-ignore
+import { Lightbox } from 'react-modal-image'
 import './page.css'
 
 interface Photo {
@@ -14,8 +15,12 @@ interface Photo {
   sizes?: string[]
 }
 
+function requireColumns() {
+  return window.innerWidth > 768
+}
+
 export default function GalleryPage() {
-  const useColumns = false
+  const [useColumns, setUseColumns] = useState(requireColumns())
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
       type: MediaType.IMAGE,
@@ -70,6 +75,17 @@ export default function GalleryPage() {
     }
   }, [loading, nextPageToken, consumedPages])
 
+  const handleWindowSizeChange = () => {
+    setUseColumns(requireColumns())
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange)
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange)
+    }
+  }, [])
+
   return (
     <div>
       {photos.length > 0 && (
@@ -79,19 +95,14 @@ export default function GalleryPage() {
           onClick={openLightbox}
         />
       )}
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={photos.map((x) => ({
-                ...x,
-                source: x.src
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway>
+      {photos.length != 0 && viewerIsOpen && (
+        <Lightbox
+          small={photos[currentImage].src}
+          medium={photos[currentImage].src}
+          large={photos[currentImage].src}
+          onClose={closeLightbox}
+        />
+      )}
     </div>
   )
 }
