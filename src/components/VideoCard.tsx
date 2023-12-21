@@ -47,8 +47,8 @@ export default function VideoCard(props: VideoCardProps) {
           setVideoRef(ref)
         }}
         loop
+        controls
         src={url}
-        muted={true}
       ></video>
     </div>
   )
