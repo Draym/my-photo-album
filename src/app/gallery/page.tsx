@@ -15,12 +15,12 @@ interface Photo {
   sizes?: string[]
 }
 
-function requireColumns() {
-  return window.innerWidth > 768
+function requireColumns(width: number) {
+  return width > 768
 }
 
 export default function GalleryPage() {
-  const [useColumns, setUseColumns] = useState(requireColumns())
+  const [useColumns, setUseColumns] = useState(false)
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
       type: MediaType.IMAGE,
@@ -76,7 +76,7 @@ export default function GalleryPage() {
   }, [loading, nextPageToken, consumedPages])
 
   const handleWindowSizeChange = () => {
-    setUseColumns(requireColumns())
+    setUseColumns(requireColumns(window.innerWidth))
   }
 
   useEffect(() => {
