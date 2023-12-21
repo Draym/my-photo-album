@@ -21,6 +21,7 @@ export default function GalleryPage() {
       type: MediaType.IMAGE,
       pageMaxSize: 25
     })
+  const [consumedPages, setConsumedPages] = useState<string[]>([])
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
 
@@ -46,12 +47,19 @@ export default function GalleryPage() {
     }) || []
   console.log(medias, nextPageToken)
 
-  const handleScroll = () => {
+  const handleScroll = async () => {
     if (
       window.innerHeight + window.scrollY >=
       document.body.offsetHeight - 500
     ) {
-      nextPage(loading, nextPageToken)
+      if (nextPageToken && consumedPages.includes(nextPageToken)) {
+        console.log('already consumed')
+        return
+      }
+      await nextPage(loading, nextPageToken)
+      if (nextPageToken) {
+        setConsumedPages([...consumedPages, nextPageToken])
+      }
     }
   }
 
@@ -60,7 +68,7 @@ export default function GalleryPage() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [loading, nextPageToken])
+  }, [loading, nextPageToken, consumedPages])
 
   return (
     <div>
