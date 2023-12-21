@@ -18,7 +18,7 @@ export default function VideoGallery() {
     useMedias({
       //folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
       type: MediaType.VIDEO,
-      pageMaxSize: 5
+      pageMaxSize: 4
     })
   const videos: Video[] =
     medias?.map((media) => ({
@@ -32,14 +32,22 @@ export default function VideoGallery() {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8 // Adjust this value to change the scroll trigger point
+      threshold: 1 // Adjust this value to change the scroll trigger point
     }
-    // This function handles the intersection of videos
     const handleIntersection = (entries: any[]) => {
+      if (videos.length === 0) {
+        return
+      }
+      const nextPageIndex = videos.length - 2
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const videoElement = entry.target
-          videoElement.play()
+          if (videoElement.src === videos[nextPageIndex].url) {
+            nextPage(loading, nextPageToken)
+          }
+          if (videoElement.paused) {
+            videoElement.play()
+          }
         } else {
           const videoElement = entry.target
           videoElement.pause()
