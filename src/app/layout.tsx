@@ -9,12 +9,14 @@ export const metadata: Metadata = {
   description: 'album photos'
 }
 
-export default function RootLayout({ children }: {
+export default function RootLayout({
+  children
+}: {
   children: React.ReactNode
 }) {
   return (
-    <html lang='en'>
-    <body className={inter.className}>{children}</body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
