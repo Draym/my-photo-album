@@ -38,7 +38,6 @@ export default function useMedias(filters: MediaFilters) {
     }
   }
 
-
   const nextPage = async (loading: boolean, nextPageToken?: string) => {
     if (loading || !nextPageToken) {
       return
@@ -49,7 +48,9 @@ export default function useMedias(filters: MediaFilters) {
         ...filters,
         pageToken: nextPageToken
       })
-      setMedias((prevData) => [...prevData, ...response.values])
+      setMedias((prevData) =>
+        Array.from(new Set([...medias, ...response.values]))
+      )
       setNextPageToken(response.nextPageToken)
     } catch (error) {
       setMedias([])
