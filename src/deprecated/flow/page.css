@@ -1,0 +1,30 @@
+html {
+    scroll-snap-type: y mandatory;
+}
+
+
+.video-container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background-color: black;
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 25px;
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+}
+
+.video-placeholder::-webkit-scrollbar {
+    display: none;
+}
+
+.video-placeholder {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
