@@ -1,5 +1,5 @@
 import { drive_v3, google } from 'googleapis'
-import { MediaFilters } from '@/models/media/mediaTypes'
+import { Media, MediaFilters } from '@/models/media/mediaTypes'
 import { Paginated } from '@/utils/pagination'
 import { buildMimeTypeFilter } from '@/clients/mimeTypeFilterBuilder'
 
@@ -9,6 +9,8 @@ const auth = new google.auth.JWT({
   scopes: ['https://www.googleapis.com/auth/drive']
 })
 const drive = google.drive({ version: 'v3', auth })
+
+const medias: { [key: string]: Media } = {}
 
 const searchImages = async (
   query: MediaFilters
@@ -43,6 +45,21 @@ const searchImages = async (
   }
 }
 
+const getImage = async (fileId: string): Promise<drive_v3.Schema$File> => {
+  try {
+    const res = await drive.files.get({
+      fileId,
+      fields:
+        'files(id, name, webViewLink, mimeType, imageMediaMetadata, videoMediaMetadata, thumbnailLink)'
+    })
+    return res.data
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
+}
+
 export default {
-  searchImages
+  searchImages,
+  getImage
 }

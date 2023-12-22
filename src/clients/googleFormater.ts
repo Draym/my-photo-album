@@ -8,9 +8,13 @@ export const formatGoogleMedia = (medias: drive_v3.Schema$File[]): Media[] => {
   //console.log('Format media >', medias)
   return medias.map((media: any) => {
     return {
+      id: media.id,
       type: media.mimeType,
-      url: media.webContentLink,
-      thumbnail: media.thumbnailLink,
+      src: media.webContentLink,
+      url: `https://drive.google.com/uc?export=view&id=${media.id}`,
+      thumbnailLarge: `https://drive.google.com/thumbnail?sz=w640&id=${media.id}`,
+      thumbnailMedium: `https://drive.google.com/thumbnail?sz=w320&id=${media.id}`,
+      thumbnailSmall: `https://drive.google.com/thumbnail?id=${media.id}`,
       height:
         media.imageMediaMetadata?.height ||
         media.videoMediaMetadata?.height ||

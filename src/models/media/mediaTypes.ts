@@ -1,7 +1,11 @@
 export interface Media {
+  id: string
   type: MediaType
-  thumbnail: string
+  src: string
   url: string
+  thumbnailLarge: string
+  thumbnailMedium: string
+  thumbnailSmall: string
   height?: number
   width?: number
   time: string

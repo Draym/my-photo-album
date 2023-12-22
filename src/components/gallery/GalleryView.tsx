@@ -49,12 +49,12 @@ const GalleryView: React.FC<GalleryViewProps> = () => {
     medias?.map((media) => {
       const ratio = media.width && media.height ? media.width / media.height : 1
       return {
-        src: media.url,
+        src: media.thumbnailLarge,
         width: ratio,
         height: 1
       }
     }) || []
-  console.log(medias, nextPageToken)
+  //console.log(medias, nextPageToken)
 
   const handleScroll = async () => {
     if (
@@ -62,7 +62,6 @@ const GalleryView: React.FC<GalleryViewProps> = () => {
       document.body.offsetHeight - 500
     ) {
       if (nextPageToken && consumedPages.includes(nextPageToken)) {
-        console.log('already consumed')
         return
       }
       await nextPage(loading, nextPageToken)
@@ -99,11 +98,11 @@ const GalleryView: React.FC<GalleryViewProps> = () => {
           onClick={openLightbox}
         />
       )}
-      {photos.length != 0 && viewerIsOpen && (
+      {medias.length != 0 && viewerIsOpen && (
         <Lightbox
-          small={photos[currentImage].src}
-          medium={photos[currentImage].src}
-          large={photos[currentImage].src}
+          small={medias[currentImage].thumbnailMedium}
+          medium={medias[currentImage].url}
+          large={medias[currentImage].url}
           onClose={closeLightbox}
         />
       )}

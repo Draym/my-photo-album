@@ -27,7 +27,7 @@ export default function VideoGallery() {
       height: media.height
     })) || []
 
-  console.log(videos)
+  //console.log(videos)
   useEffect(() => {
     const observerOptions = {
       root: null,

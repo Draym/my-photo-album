@@ -26,7 +26,7 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
     const videoToPreload = medias.slice(videoElements.current.length)
     videoToPreload.forEach((media) => {
       const video = document.createElement('video')
-      video.src = media.url
+      video.src = media.src
       video.className = 'video-player'
       video.preload = 'auto'
       video.controls = true
