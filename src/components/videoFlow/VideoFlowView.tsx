@@ -9,6 +9,9 @@ interface VideoFlowViewProps {
   active: boolean
 }
 
+const swipeThreshold = 30 // Minimum distance for a swipe action
+const tapDurationThreshold = 200 // Maximum time (in ms) for a tap
+
 const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
@@ -18,7 +21,9 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
     })
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const touchStartTimestamp = useRef(0)
   const touchStartY = useRef(0)
+  const touchEndY = useRef(0)
   const videoElements = useRef<HTMLVideoElement[]>([])
 
   // Preload videos and store as video elements in an array
@@ -85,20 +90,45 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
 
   const handleTouchStart = (event: TouchEvent) => {
     touchStartY.current = event.touches[0].clientY
+    touchStartTimestamp.current = event.timeStamp
+  }
+
+  const handleTouchMove = (event: TouchEvent) => {
+    touchEndY.current = event.touches[0].clientY
   }
 
   const handleTouchEnd = (event: TouchEvent) => {
-    const touchEndY = event.changedTouches[0].clientY
-    const nextIndex =
-      touchEndY < touchStartY.current ? currentIndex + 1 : currentIndex - 1
-    handleScroll(nextIndex)
+    if (touchStartY.current === 0 || touchEndY.current === 0) {
+      return
+    }
+    const touchDuration = new Date().getTime() - touchStartTimestamp.current
+    const yDiff = touchEndY.current - touchStartY.current
+
+    if (
+      Math.abs(yDiff) > swipeThreshold &&
+      touchDuration > tapDurationThreshold
+    ) {
+      touchStartY.current = 0
+      touchEndY.current = 0
+      // Handle swipe
+      if (yDiff > 0) {
+        handleScroll(currentIndex - 1)
+      } else {
+        handleScroll(currentIndex + 1)
+      }
+    }
   }
 
   useEffect(() => {
     const container = containerRef.current
     if (container) {
       container.addEventListener('wheel', handleWheel, { passive: true })
-      container.addEventListener('touchstart', handleTouchStart, { passive: true })
+      container.addEventListener('touchstart', handleTouchStart, {
+        passive: true
+      })
+      container.addEventListener('touchmove', handleTouchMove, {
+        passive: true
+      })
       container.addEventListener('touchend', handleTouchEnd, { passive: true })
     }
 
@@ -106,6 +136,7 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
       if (container) {
         container.removeEventListener('wheel', handleWheel)
         container.removeEventListener('touchstart', handleTouchStart)
+        container.removeEventListener('touchmove', handleTouchMove)
         container.removeEventListener('touchend', handleTouchEnd)
       }
     }
