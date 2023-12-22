@@ -3,6 +3,7 @@
 import VideoPlayer from './VideoPlayer'
 import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
+import './page.css'
 
 const App = () => {
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =

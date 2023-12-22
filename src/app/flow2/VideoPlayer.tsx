@@ -17,6 +17,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrls }) => {
     videoUrls.forEach((url) => {
       const video = document.createElement('video')
       video.src = url
+      video.className = 'video-player'
       video.preload = 'auto'
       video.controls = true
       video.loop = true
