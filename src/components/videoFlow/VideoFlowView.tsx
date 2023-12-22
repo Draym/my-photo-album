@@ -31,6 +31,7 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
       video.preload = 'auto'
       video.controls = true
       video.loop = true
+      video.playsInline = true
       videoElements.current.push(video)
     })
     displayCurrentVideo()
