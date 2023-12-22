@@ -3,25 +3,37 @@
     justify-content: space-around;
     position: sticky;
     bottom: 0;
-    background-color: #fff;
+    background-color: #001125; /* Very dark blue, almost black */
     padding: 10px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Full width on mobile */
+    border-top-left-radius: 20px; /* Rounded corners */
+    border-top-right-radius: 20px; /* Rounded corners */
+}
+
+@media (min-width: 600px) { /* For larger screens like laptops */
+    .bottom-menu {
+        width: 30%; /* 30% width on larger screens */
+        margin: 0 auto; /* Centering the menu */
+    }
 }
 
 .menu-button {
     padding: 10px 20px;
     border: none;
-    background-color: #f0f0f0;
+    background-color: #001f3f;
+    color: white; /* White text color */
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px; /* Rounded buttons */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .menu-button.active {
-    background-color: #d0d0d0;
+    background-color: #003265 !important; /* Lighter blue for active button */
+    transform: scale(1.05) !important; /* Slightly enlarge active button */
 }
 
-.menu-button:focus {
-    outline: none;
+.menu-button:hover {
+    background-color: #001f3f; /* Slightly lighter blue on hover for contrast */
 }
