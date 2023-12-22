@@ -6,36 +6,29 @@ interface VideoPlayerProps {
   videoUrls: string[]
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({videoUrls}) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrls }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const touchStartY = useRef(0)
+  const videoElements = useRef<HTMLVideoElement[]>([])
 
   // Preload videos and store as video elements in an array
   const preloadVideos = () => {
-    const videos = videoUrls.map((url) => {
+    videoUrls.forEach((url) => {
       const video = document.createElement('video')
       video.src = url
       video.preload = 'auto'
       video.controls = true
       video.loop = true
-      video.style.width = 'auto'
-      video.style.height = '780px'
-      return video
+      videoElements.current.push(video)
     })
-
-    // Append the first video to the container
-    if (containerRef.current && videos.length > 0) {
-      containerRef.current.appendChild(videos[0])
-    }
-
-    return videos
   }
 
-  // Store the preloaded video elements
-  const videoElements = useRef<HTMLVideoElement[]>(preloadVideos())
+  useEffect(() => {
+    preloadVideos()
+  }, [videoUrls])
 
-  const handleScroll = (event: WheelEvent) => {
-    const nextIndex = event.deltaY > 0 ? currentIndex + 1 : currentIndex - 1
+  const handleScroll = (nextIndex: number) => {
     if (nextIndex >= 0 && nextIndex < videoUrls.length) {
       videoElements.current[currentIndex].pause()
       videoElements.current[currentIndex].currentTime = 0
@@ -43,11 +36,26 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({videoUrls}) => {
     }
   }
 
+  const handleWheel = (event: WheelEvent) => {
+    const nextIndex = event.deltaY > 0 ? currentIndex + 1 : currentIndex - 1
+    handleScroll(nextIndex)
+  }
+
+  const handleTouchStart = (event: TouchEvent) => {
+    touchStartY.current = event.touches[0].clientY
+  }
+
+  const handleTouchEnd = (event: TouchEvent) => {
+    const touchEndY = event.changedTouches[0].clientY
+    const nextIndex =
+      touchEndY < touchStartY.current ? currentIndex + 1 : currentIndex - 1
+    handleScroll(nextIndex)
+  }
+
   useEffect(() => {
     const container = containerRef.current
     const currentVideo = videoElements.current[currentIndex]
     if (container && currentVideo) {
-      console.log(container)
       container.innerHTML = '' // Clear existing content
       container.appendChild(currentVideo) // Append the new video
       currentVideo.play()
@@ -57,15 +65,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({videoUrls}) => {
   useEffect(() => {
     const container = containerRef.current
     if (container) {
-      container.addEventListener('wheel', handleScroll)
+      container.addEventListener('wheel', handleWheel)
+      container.addEventListener('touchstart', handleTouchStart)
+      container.addEventListener('touchend', handleTouchEnd)
     }
 
     return () => {
       if (container) {
-        container.removeEventListener('wheel', handleScroll)
+        container.removeEventListener('wheel', handleWheel)
+        container.removeEventListener('touchstart', handleTouchStart)
+        container.removeEventListener('touchend', handleTouchEnd)
       }
     }
-  }, [videoUrls, currentIndex])
+  }, [currentIndex])
 
   return <div ref={containerRef} className="video-container" />
 }
