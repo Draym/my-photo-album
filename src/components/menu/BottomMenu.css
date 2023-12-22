@@ -3,25 +3,33 @@
     justify-content: space-around;
     position: sticky;
     bottom: 0;
-    background-color: #001125; /* Very dark blue, almost black */
-    padding: 10px;
+    background-color: #000b1a; /* Very dark blue, almost black */
+    padding: 10px 10px 4px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     width: 100%; /* Full width on mobile */
+    box-sizing: border-box;
     border-top-left-radius: 20px; /* Rounded corners */
     border-top-right-radius: 20px; /* Rounded corners */
 }
 
-@media (min-width: 600px) { /* For larger screens like laptops */
+@media (min-width: 1130px) { /* For larger screens like laptops */
     .bottom-menu {
-        width: 30%; /* 30% width on larger screens */
-        margin: 0 auto; /* Centering the menu */
+        width: 30%!important; /* 30% width on larger screens */
     }
 }
+@media (min-width: 800px) { /* For larger screens like laptops */
+    .bottom-menu {
+        width: 50%; /* 50% width on larger screens */
+        left: 50%;
+        transform: translateX(-50%); /* Centering the menu */
+    }
+}
+
 
 .menu-button {
     padding: 10px 20px;
     border: none;
-    background-color: #001f3f;
+    background-color: #00172f;
     color: white; /* White text color */
     font-size: 16px;
     border-radius: 10px; /* Rounded buttons */
@@ -30,10 +38,10 @@
 }
 
 .menu-button.active {
-    background-color: #003265 !important; /* Lighter blue for active button */
+    background-color: #002952 !important; /* Lighter blue for active button */
     transform: scale(1.05) !important; /* Slightly enlarge active button */
 }
 
 .menu-button:hover {
-    background-color: #001f3f; /* Slightly lighter blue on hover for contrast */
+    background-color: #002954; /* Slightly lighter blue on hover for contrast */
 }

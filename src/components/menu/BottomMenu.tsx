@@ -21,7 +21,7 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ onScreenChange }) => {
         className={`menu-button ${activeScreen === 'video' ? 'active' : ''}`}
         onClick={() => handleScreenChange('video')}
       >
-        TikTok Videos
+        Videos
       </button>
       <button
         className={`menu-button ${activeScreen === 'gallery' ? 'active' : ''}`}
