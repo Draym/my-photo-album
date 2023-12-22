@@ -3,7 +3,7 @@
 import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
 import Gallery from 'react-photo-gallery'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 // @ts-ignore
 import { Lightbox } from 'react-modal-image'
 import './GalleryView.css'
@@ -19,7 +19,11 @@ function requireColumns(width: number) {
   return width > 768
 }
 
-export default function GalleryView() {
+interface GalleryViewProps {
+  active: boolean
+}
+
+const GalleryView: React.FC<GalleryViewProps> = () => {
   const [useColumns, setUseColumns] = useState(false)
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
@@ -106,3 +110,4 @@ export default function GalleryView() {
     </div>
   )
 }
+export default GalleryView

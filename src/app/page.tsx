@@ -11,10 +11,10 @@ const App = () => {
   return (
     <div>
       <div style={{ display: currentScreen === 'video' ? 'block' : 'none' }}>
-        <VideoFlowView/>
+        <VideoFlowView active={currentScreen === 'video'}/>
       </div>
       <div style={{ display: currentScreen === 'gallery' ? 'block' : 'none' }}>
-        <GalleryView />
+        <GalleryView active={currentScreen === 'gallery'}/>
       </div>
       <BottomMenu onScreenChange={setCurrentScreen} />
     </div>

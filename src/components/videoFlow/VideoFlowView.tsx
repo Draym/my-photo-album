@@ -5,7 +5,11 @@ import { MediaType } from '@/models/media/mediaTypes'
 import './VideoFlowView.css'
 import React, { useEffect, useRef, useState } from 'react'
 
-const VideoFlowView = () => {
+interface VideoFlowViewProps {
+  active: boolean
+}
+
+const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
       //folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
@@ -31,6 +35,18 @@ const VideoFlowView = () => {
     })
     displayCurrentVideo()
   }
+
+  useEffect(() => {
+    const currentVideo = videoElements.current[currentIndex]
+    if (!currentVideo) {
+      return
+    }
+    if (active) {
+      currentVideo.play()
+    } else {
+      currentVideo.pause()
+    }
+  }, [active])
 
   useEffect(() => {
     preloadVideos()
