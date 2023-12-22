@@ -85,7 +85,8 @@ export default function VideoGallery() {
             width={video.width}
             height={video.height}
             setVideoRef={handleVideoRef(index)}
-            autoplay={index === 0}
+            autoplay={false}
+            controls={false}
           />
         ))}
       </div>

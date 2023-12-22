@@ -19,16 +19,21 @@
     background: transparent;
 }
 
-.player {
+.video-player {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%)translateY(-50%);
     object-fit: fill;
-    width: auto;
-    min-height: 780px;
     max-height: 780px;
     max-width: 1280px;
+}
+/* Responsive design for larger screens */
+@media (min-width: 600px) {
+    .video-player {
+        width: auto;
+        min-height: 780px;
+    }
 }
 
 .bottom-controls {
