@@ -6,7 +6,7 @@ import Gallery from 'react-photo-gallery'
 import { useCallback, useEffect, useState } from 'react'
 // @ts-ignore
 import { Lightbox } from 'react-modal-image'
-import './page.css'
+import './GalleryView.css'
 
 interface Photo {
   src: string
@@ -19,7 +19,7 @@ function requireColumns(width: number) {
   return width > 768
 }
 
-export default function GalleryPage() {
+export default function GalleryView() {
   const [useColumns, setUseColumns] = useState(false)
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({

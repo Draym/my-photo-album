@@ -1,14 +1,24 @@
-import React from 'react'
-import Link from 'next/link'
+'use client'
 
-export default function Home() {
+import React, { useState } from 'react';
+import VideoFlowView from '@/components/videoFlow/VideoFlowView'
+import GalleryView from '@/components/gallery/GalleryView'
+import BottomMenu from '@/components/menu/BottomMenu'
+
+const App = () => {
+  const [currentScreen, setCurrentScreen] = useState<'video' | 'gallery'>('video');
+
   return (
-    <main>
-      Hello world
-      <br />
-      <Link href="/gallery">Click to Gallery</Link>
-      <br />
-      <Link href="/flow">Click to Flow</Link>
-    </main>
-  )
-}
+    <div>
+      <div style={{ display: currentScreen === 'video' ? 'block' : 'none' }}>
+        <VideoFlowView/>
+      </div>
+      <div style={{ display: currentScreen === 'gallery' ? 'block' : 'none' }}>
+        <GalleryView />
+      </div>
+      <BottomMenu onScreenChange={setCurrentScreen} />
+    </div>
+  );
+};
+
+export default App;

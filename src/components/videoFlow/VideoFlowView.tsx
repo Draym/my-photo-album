@@ -2,10 +2,10 @@
 
 import useMedias from '@/hooks/useMedias'
 import { MediaType } from '@/models/media/mediaTypes'
-import './page.css'
+import './VideoFlowView.css'
 import React, { useEffect, useRef, useState } from 'react'
 
-const App = () => {
+const VideoFlowView = () => {
   const { medias, nextPageToken, loading, nextPage, refreshFromZero } =
     useMedias({
       //folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
@@ -97,4 +97,4 @@ const App = () => {
   return <div ref={containerRef} className="video-container" />
 }
 
-export default App
+export default VideoFlowView
