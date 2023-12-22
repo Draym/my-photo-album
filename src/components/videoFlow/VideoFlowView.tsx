@@ -96,9 +96,9 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   useEffect(() => {
     const container = containerRef.current
     if (container) {
-      container.addEventListener('wheel', handleWheel)
-      container.addEventListener('touchstart', handleTouchStart)
-      container.addEventListener('touchend', handleTouchEnd)
+      container.addEventListener('wheel', handleWheel, { passive: true })
+      container.addEventListener('touchstart', handleTouchStart, { passive: true })
+      container.addEventListener('touchend', handleTouchEnd, { passive: true })
     }
 
     return () => {
