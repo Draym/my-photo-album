@@ -24,6 +24,8 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   const touchStartTimestamp = useRef(0)
   const touchStartY = useRef(0)
   const touchEndY = useRef(0)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
   const videoElements = useRef<HTMLVideoElement[]>([])
 
   // Preload videos and store as video elements in an array
@@ -95,11 +97,13 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   }
 
   const handleTouchStart = (event: TouchEvent) => {
+    touchStartX.current = event.touches[0].clientX
     touchStartY.current = event.touches[0].clientY
     touchStartTimestamp.current = event.timeStamp
   }
 
   const handleTouchMove = (event: TouchEvent) => {
+    touchEndX.current = event.touches[0].clientX
     touchEndY.current = event.touches[0].clientY
   }
 
@@ -109,15 +113,16 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
     }
     const touchDuration = new Date().getTime() - touchStartTimestamp.current
     const yDiff = touchEndY.current - touchStartY.current
-
+    const xDiff = touchEndX.current - touchStartX.current
+    const diff = Math.abs(xDiff) > Math.abs(yDiff) ? xDiff : yDiff
     if (
-      Math.abs(yDiff) > swipeThreshold &&
+      Math.abs(diff) > swipeThreshold &&
       touchDuration > tapDurationThreshold
     ) {
       touchStartY.current = 0
       touchEndY.current = 0
       // Handle swipe
-      if (yDiff > 0) {
+      if (diff > 0) {
         handleScroll(currentIndex - 1)
       } else {
         handleScroll(currentIndex + 1)
