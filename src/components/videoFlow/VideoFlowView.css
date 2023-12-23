@@ -10,7 +10,7 @@
 }
 
 .video-player {
-    max-height: 700px;
+    max-height: 740px;
     max-width: 1280px;
     object-fit: cover; /* Adjusts video size to cover the container */
 }
@@ -23,7 +23,7 @@
 @media (max-width: 600px) {
     .video-player {
         width: auto;
-        max-height: 80%;
+        max-height: 95%;
         max-width: 100%;
         object-fit: contain; /* Ensures video is fully visible on smaller screens */
     }
