@@ -4,7 +4,7 @@
     position: sticky;
     bottom: 0;
     background-color: #000b1a; /* Very dark blue, almost black */
-    padding: 10px 10px 4px;
+    padding: 10px 10px 7px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     width: 100%; /* Full width on mobile */
     box-sizing: border-box;
