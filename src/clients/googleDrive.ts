@@ -24,6 +24,7 @@ const searchImages = async (
     if (mimeFilter.length != 0) {
       params.push(mimeFilter)
     }
+    params.push(`trashed = false`)
     const request = params.join(' and ')
     console.log(`search files query: `, query, request)
     const res = await drive.files.list({
