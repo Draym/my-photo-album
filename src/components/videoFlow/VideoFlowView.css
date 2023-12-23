@@ -15,6 +15,10 @@
     object-fit: cover; /* Adjusts video size to cover the container */
 }
 
+.video-player:hover {
+    cursor: pointer;
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .video-player {

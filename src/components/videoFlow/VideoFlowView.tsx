@@ -32,12 +32,15 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
     //console.log('preloadVideos', videoToPreload)
     videoToPreload.forEach((media) => {
       const video = document.createElement('video')
-      video.src = media.url
+      video.src = media.src
       video.className = 'video-player'
       video.preload = 'auto'
-      video.controls = true
+      video.controls = false
       video.loop = true
       video.playsInline = true
+      video.onclick = () => {
+        video.paused ? video.play() : video.pause()
+      }
       videoElements.current.push(video)
     })
     if (currentIndex === 0) {
