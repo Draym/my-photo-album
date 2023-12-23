@@ -29,9 +29,10 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
   // Preload videos and store as video elements in an array
   const preloadVideos = () => {
     const videoToPreload = medias.slice(videoElements.current.length)
+    //console.log('preloadVideos', videoToPreload)
     videoToPreload.forEach((media) => {
       const video = document.createElement('video')
-      video.src = media.src
+      video.src = media.url
       video.className = 'video-player'
       video.preload = 'auto'
       video.controls = true
@@ -39,7 +40,9 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
       video.playsInline = true
       videoElements.current.push(video)
     })
-    displayCurrentVideo()
+    if (currentIndex === 0) {
+      displayCurrentVideo()
+    }
   }
 
   useEffect(() => {
@@ -78,7 +81,7 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
       videoElements.current[currentIndex].currentTime = 0
       setCurrentIndex(nextIndex)
     }
-    if (nextIndex === medias.length - 1) {
+    if (nextIndex === medias.length - 2) {
       nextPage(loading, nextPageToken)
     }
   }
