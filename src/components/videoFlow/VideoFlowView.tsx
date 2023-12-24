@@ -17,7 +17,7 @@ const VideoFlowView: React.FC<VideoFlowViewProps> = ({ active }) => {
     useMedias({
       //folder: '1qFq7Odqk5MZHGVDhBh8QzlGuRkU8poHJ',
       type: MediaType.VIDEO,
-      pageMaxSize: 4
+      pageMaxSize: 10
     })
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
