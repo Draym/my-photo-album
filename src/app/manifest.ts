@@ -9,17 +9,21 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: '#FFFFFF',
     display: 'standalone',
     orientation: 'portrait-primary',
-    theme_color: '#000000',
+    theme_color: '#00172f',
     icons: [
       {
-        src: process.env.NEXT_PUBLIC_APP_ICON_192!,
+        //src: process.env.NEXT_PUBLIC_APP_ICON_192!,
+        src: '/icon_192x192.png',
         sizes: '192x192',
-        type: 'image/png'
+        type: 'image/png',
+        purpose: 'any'
       },
       {
-        src: process.env.NEXT_PUBLIC_APP_ICON_512!,
-        sizes: '512x512',
-        type: 'image/png'
+        //src: process.env.NEXT_PUBLIC_APP_ICON_192!,
+        src: '/icon_521x521.png',
+        sizes: '521x521',
+        type: 'image/png',
+        purpose: 'any'
       }
     ]
   }
