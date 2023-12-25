@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/downloadIcons.js",
     "build": "node scripts/generateManifest.js && next build",
     "start": "next start",
     "lint": "next lint",
