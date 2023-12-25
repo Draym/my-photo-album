@@ -3,9 +3,9 @@ const fs = require('fs')
 const path = require('path')
 
 const iconsUrl = {
-  'icon-192x192.png':
+  'icon-521x512.png':
     'https://drive.google.com/thumbnail?sz=w512-h512&id=1uvrCQxbhr_8EvkoFwXrb_gziwBJTfrE_',
-  'icon-512x512.png':
+  'icon-192x192.png':
     'https://drive.google.com/thumbnail?sz=w192-h192&id=1uvrCQxbhr_8EvkoFwXrb_gziwBJTfrE_'
 }
 Object.keys(iconsUrl).forEach((key) => {
